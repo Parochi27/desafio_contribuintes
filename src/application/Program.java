@@ -1,7 +1,11 @@
 package application;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
+
+import entities.TaxPayer;
 
 public class Program {
 
@@ -11,64 +15,39 @@ public class Program {
 		Locale.setDefault(Locale.US);
 		Scanner sc = new Scanner(System.in);
 		
-		double impostoSobreSalario, deducaoFinal;
+		System.out.print("Quantos contribuintes você vai digitar? ");
+		int n = sc.nextInt();
 		
-		System.out.print("Renda anual com salário: ");
-		double rendaAnualSalario = sc.nextDouble();
-		System.out.print("Renda anual com prestação de serviço: ");
-		double rendaAnualServicos = sc.nextDouble();
-		System.out.print("Renda anual com ganho de capital: ");
-		double rendaAnualCapital = sc.nextDouble();
-		System.out.print("Gastos médicos: ");
-		double gastosMedicos = sc.nextDouble();
-		System.out.print("Gastos educacionais: ");
-		double gastosEducacionais = sc.nextDouble();
-		
-		double rendaMensalSalario = rendaAnualSalario / 12;
-		if ( rendaMensalSalario < 3_000) {
-			impostoSobreSalario = 0;
-		}
-		else if (rendaMensalSalario >= 3_000 && rendaMensalSalario < 5_000){
-			impostoSobreSalario = rendaAnualSalario * 0.10;
-		}
-		else {
-			impostoSobreSalario = rendaAnualSalario * 0.20;
-		}
-		
-		double impostoSobreServicos = rendaAnualServicos * 0.15;
-		double impostoSobreCapital = rendaAnualCapital * 0.20;
-		double impostoBruto = impostoSobreCapital + impostoSobreSalario + impostoSobreServicos;
-		
-		double gastosDedutiveis = gastosEducacionais + gastosMedicos;
-		double maximoDedutivel = impostoBruto * 0.30;
-		
-		if (gastosDedutiveis <= maximoDedutivel) {
-			deducaoFinal = gastosDedutiveis;
-		}
-		else {
-			deducaoFinal = maximoDedutivel;
-		}	
+		List<TaxPayer> taxPayers = new ArrayList<>();
 		
 		System.out.println();
-		System.out.println("RELATÓRIO DE IMPOSTO DE RENDA");
-		
-		System.out.println();
-		System.out.println("CONSOLIDADO DE RENDA:");
-		System.out.printf("Imposto sobre salário: %.2f\n", impostoSobreSalario);
-		System.out.printf("Imposto sobre serviços: %.2f\n", impostoSobreServicos);
-		System.out.printf("Imposto sobre ganho de capital: %.2f\n", impostoSobreCapital);
-		
-		System.out.println();
-		System.out.println("DEDUÇÕES:");
-		System.out.printf("Máximo dedutível: %.2f\n", maximoDedutivel);
-		System.out.printf("Gastos dedutíveis: %.2f\n", gastosDedutiveis);
-		
-		System.out.println();
-		System.out.println("RESUMO:");
-		System.out.printf("Imposto bruto total: %.2f\n", impostoBruto);
-		System.out.printf("Abatimento: %.2f\n", deducaoFinal);
-		System.out.printf("Imposto devido: %.2f\n", impostoBruto - deducaoFinal);
-		
+		for (int i = 1; i <= n; i++) {
+			System.out.println();
+			
+			System.out.println("Digite os dados do " + i + "o contribuinte:");
+			System.out.print("Renda anual com salário: ");
+			double salaryIncome = sc.nextDouble();
+			System.out.print("Renda anual com prestação de serviço: ");
+			double servicesIncome = sc.nextDouble();
+			System.out.print("Renda anual com ganho de capital: ");
+			double capitalIncome = sc.nextDouble();
+			System.out.print("Gastos médicos: ");
+			double healthExpendings = sc.nextDouble();
+			System.out.print("Gastos educacionais: ");
+			double educationExpendings = sc.nextDouble();
+			taxPayers.add(new TaxPayer(salaryIncome, servicesIncome, capitalIncome, healthExpendings, educationExpendings));
+		}
+
+		int i = 1;
+		for (TaxPayer tp : taxPayers) {
+			System.out.println();
+			System.out.println("Resumo do " + i + "o contribuinte:");
+			System.out.printf("Imposto bruto total: %.2f\n", tp.grossTax());
+			System.out.printf("Abatimento: %.2f\n", tp.taxRebate());
+			System.out.printf("Imposto devido: %.2f\n", tp.netTax());
+			i++;
+		}
+			
 
 		sc.close();
 		
