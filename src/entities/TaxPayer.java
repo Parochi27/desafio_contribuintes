@@ -89,7 +89,7 @@ public class TaxPayer {
 		double rebatableExpedings = healthExpending + educationExpending;
 		double maxRebate = grossTax() * 0.30;
 		
-		if (rebatableExpedint <= maxRebate) {
+		if (rebatableExpedings <= maxRebate) {
 			return rebatableExpedings;
 		}
 		else {
@@ -100,5 +100,14 @@ public class TaxPayer {
 	public Double netTax() {
 		return grossTax() - taxRebate();
 	}
+
+	@Override
+	public String toString() {
+		return String.format("Imposto bruto total: %.2f\n", grossTax())
+				+String.format("Abatimento: %.2f\n", taxRebate())
+				+String.format("Imposto devido: %.2f\n", netTax());
+	}
+	
+	
 
 }

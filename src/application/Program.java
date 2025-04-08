@@ -20,7 +20,6 @@ public class Program {
 		
 		List<TaxPayer> taxPayers = new ArrayList<>();
 		
-		System.out.println();
 		for (int i = 1; i <= n; i++) {
 			System.out.println();
 			
@@ -42,9 +41,7 @@ public class Program {
 		for (TaxPayer tp : taxPayers) {
 			System.out.println();
 			System.out.println("Resumo do " + i + "o contribuinte:");
-			System.out.printf("Imposto bruto total: %.2f\n", tp.grossTax());
-			System.out.printf("Abatimento: %.2f\n", tp.taxRebate());
-			System.out.printf("Imposto devido: %.2f\n", tp.netTax());
+			System.out.print(tp.toString());
 			i++;
 		}
 			
